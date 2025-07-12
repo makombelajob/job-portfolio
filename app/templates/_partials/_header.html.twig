@@ -1,6 +1,5 @@
 <nav>
-    <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-            aria-controls="offcanvasTop">
+    <button class="btn burger-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
         <svg width="50" height="50">
             <use href="{{ asset('images/sprites.svg') }}#burger"/>
         </svg>
@@ -8,18 +7,28 @@
     {# options lists #}
     <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasTopLabel">Offcanvas top</h5>
+            <h5 class="offcanvas-title" id="offcanvasTopLabel">Job_portfolio</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <ul>
-                <li><a href="">Accueil</a></li>
-                <li><a href="">Compétences</a></li>
-                <li><a href="">Education</a></li>
-                <li><a href="">Projet</a></li>
-                <li><a href="">Contact</a></li>
-
+                <li class="list-group-item">Accueil</li>
+                <li class="list-group-item">Compétences</li>
+                <hr class="dropdown-divider">
+                <li class="list-group-item">Education</li>
+                <li class="list-group-item">Projet</li>
+                <hr class="dropdown-divider">
+                <li class="list-group-item">Contact</li>
             </ul>
         </div>
     </div>
+    <ul class="nav-list-desktop">
+        <li class="list-group-item">Accueil</li>
+        <li class="list-group-item">Compétences</li>
+        <hr class="dropdown-divider">
+        <li class="list-group-item">Éducation</li>
+        <li class="list-group-item">Projet</li>
+        <hr class="dropdown-divider">
+        <li class="list-group-item">Contact</li>
+    </ul>
 </nav>
