@@ -1,4 +1,9 @@
 <nav>
+    <div class="logo">
+        <a href="{{ path('app_main') }}">
+            <img src="{{ asset('images/job-folio-logo.png') }}" alt="Logo de job makombela auteur du site" width="100%" height="auto">
+        </a>
+    </div>
     <button class="btn burger-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
         <svg width="50" height="50">
             <use href="{{ asset('images/sprites.svg') }}#burger"/>
@@ -7,28 +12,28 @@
     {# options lists #}
     <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasTopLabel">Job_portfolio</h5>
+            <h5 class="offcanvas-title" id="offcanvasTopLabel">Job portfolio</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <ul>
-                <li class="list-group-item">Accueil</li>
-                <li class="list-group-item">Compétences</li>
-                <hr class="dropdown-divider">
-                <li class="list-group-item">Education</li>
-                <li class="list-group-item">Projet</li>
-                <hr class="dropdown-divider">
-                <li class="list-group-item">Contact</li>
+                <li class="list-group-item"><a href="{{ path('app_main') }}">Accueil</a></li>
+                    <hr class="dropdown-divider">
+                <li class="list-group-item"><a href="{{ path('app_main') }}#skills">Compétences</a></li>
+                    <hr class="dropdown-divider">
+                <li class="list-group-item"><a href="{{ path('app_main') }}#educations">Education</a></li>
+                    <hr class="dropdown-divider">
+                <li class="list-group-item"><a href="{{ path('app_main') }}#projects">Projet</a></li>
+                    <hr class="dropdown-divider">
+                <li class="list-group-item"><a href="{{ path('app_main') }}#contact">Contact</a></li>
             </ul>
         </div>
     </div>
     <ul class="nav-list-desktop">
-        <li class="list-group-item">Accueil</li>
-        <li class="list-group-item">Compétences</li>
-        <hr class="dropdown-divider">
-        <li class="list-group-item">Éducation</li>
-        <li class="list-group-item">Projet</li>
-        <hr class="dropdown-divider">
-        <li class="list-group-item">Contact</li>
+        <li class="list-group-item"><a href="{{ path('app_main') }}">Accueil</a></li>
+        <li class="list-group-item"><a href="{{ path('app_main') }}#skills">Compétences</a></li>
+        <li class="list-group-item"><a href="{{ path('app_main') }}#educations">Éducation</a></li>
+        <li class="list-group-item"><a href="{{ path('app_main') }}#projects">Projet</a></li>
+        <li class="list-group-item"><a href="{{ path('app_main') }}#contact">Contact</a></li>
     </ul>
 </nav>

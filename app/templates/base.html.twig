@@ -8,9 +8,10 @@
             {% endblock %}
         </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
         {% block description %}
             <meta name="description" content="Job Makombela développeur web et web mobile
-            spécialiser dans symfony">
+            spécialiser dans symfony, J'ai suivis une formation de 6 mois à l'Ecole Européenne du numérique et obtenue un titre RNCP37674 équivalent à un BAC+2. Et mobile sur Toulouse(France)">
         {% endblock %}
 
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
@@ -38,6 +39,8 @@
         </main>
         <footer>
             {# les contenues du footer #}
+            {% include '_partials/_footer.html.twig' %}
+
         </footer>
 
     </body>
