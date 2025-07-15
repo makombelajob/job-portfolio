@@ -44,7 +44,7 @@
 					    	<p>{{ educ.year | date }}</p>
 					    	<p>{{ educ.school }}</p>
 					    	<div>
-						    	<a class="btn btn-primary fs-4" href="">Voir Certificat</a>
+						    	<a class="btn btn-primary fs-4" href="{{ asset("documents/" ~ educ.name ~ ".pdf" ) }}">Voir Certificat</a>
 					    	</div>
 						{% endfor %}
 				    	</div>
@@ -83,7 +83,13 @@
 					    	<h3 class="h5 fw-semibold mb-2">{{ project.name }}</h3>
 					    	<p>Une application web moderne sous symfony-php, qui est un Espace Numérique de Travail optimiser.</p>
 					    	<div>
-						    	<a class="btn btn-primary fs-4" href="https://ent-facile.fr">Voir plus</a>
+								{% if project.name == 'ent-facile' %}
+						    		<a class="btn btn-primary fs-4" href="https://ent-facile.fr">Voir plus</a>
+									{% elseif project.name == 'Portfolio' %}
+										<a class="btn btn-primary fs-4" href="https://jobmakombela.fr">Voir plus</a>
+									{% else %}
+										<a class="btn btn-primary fs-4" href="https://ent-facile.fr">Lien indisponible</a>
+								{% endif %}
 					    	</div>
 						{% endfor %}
 				    	</div>

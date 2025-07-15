@@ -60,14 +60,14 @@ class AppFixtures extends Fixture
 
         // Création des formations
         $education1 = new Educations();
-        $education1->setName('Bac+2 (RNCP-37674)')
+        $education1->setName('Bac+2(RNCP-37674)')
                    ->setYear(new \DateTimeImmutable('2025-07-04'))
                    ->setSchool('Ecole Européenne du Numérique')
                    ->addSkill($skill1, $skill2, $skill3, $skill4, $skill5);
         $manager->persist($education1);
 
         $education2 = new Educations();
-        $education2->setName('Intégrateur Cabine Aéronautique')
+        $education2->setName('Intégrateur_Cabine_Aéronautique')
                    ->setYear(new \DateTimeImmutable('2024-01-01'))
                    ->setSchool('Afpa-Toulouse')
                    ->addSkill($skill6);
