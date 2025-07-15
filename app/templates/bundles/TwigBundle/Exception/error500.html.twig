@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Job MAKOMBELA - Portfolio - page d'Accueil
+{% endblock %}
+
+{% block body %}
+
+	<section id="hero" class="d-flex justify-content-center align-items-center min-vh-100">
+
+		<img src="{{ asset('images/job.jpg') }}" alt="Photo de Job MAKOMBELA Dévelloppeur d'application web" class="rounded-circle mb-4 profile"/>
+
+		<h1 class="display-4 fw-bold mb-3 main-title">Erreur survenue {{ status_code }}</h1>
+
+		<p class="lead">
+			Veuillez reessayer plus tard
+		</p>
+        <p>Erreur info : {{ status_text }}</p>
+        
+	</section>
+
+{% endblock %}
+

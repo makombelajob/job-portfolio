@@ -38,8 +38,8 @@ body{
             }
             a{
                 text-decoration: none;
-                font-size: 1.5rem;
                 cursor: pointer;
+                display: block;
                 color: rgb(163, 155, 155);
                 font-weight: 600;
             }
@@ -171,7 +171,7 @@ body{
             padding: 20px;
             text-align: center;
             font-family: Arial, sans-serif;
-            border-top: 5px solid #007BFF;
+            border-top: 5px solid #0c3663;
         }
 
         .footer h1 {
