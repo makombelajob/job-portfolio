@@ -21,12 +21,56 @@
         {% block stylesheets %}
         {% endblock %}
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Job Makombela",
+          "jobTitle": "Développeur Web et Web Mobile",
+          "description": "Job Makombela développeur web et web mobile spécialisé dans Symfony. J'ai suivi une formation de 6 mois à l'Ecole Européenne du numérique et obtenu un titre RNCP37674 équivalent à un BAC+2. Je suis mobile sur Toulouse (France).",
+          "url": "https://jobmakombela.fr",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Toulouse",
+            "addressCountry": "France"
+          },
+          "sameAs": [
+            "https://www.linkedin.com/in/job-makombela",
+            "https://github.com/jobmakombela"
+          ]
+        }
+        </script>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "name": "Projet Symfony Portfolio",
+          "description": "Un portfolio développé avec Symfony pour présenter mes compétences et projets.",
+          "creator": {
+            "@type": "Person",
+            "name": "Job Makombela"
+          },
+          "url": "https://jobmakombela.fr"
+        }
+        </script>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 
         {% block javascripts %}
             {#  {% block importmap %}{{ importmap('app') }}{% endblock %}#}
         {% endblock %}
 
+        <meta property="og:title" content="Portfolio de Job Makombela">
+        <meta property="og:description" content="Développeur web et web mobile spécialisé dans Symfony, basé à Toulouse, France. Découvrez mes projets et compétences.">
+        <meta property="og:url" content="https://jobmakombela.fr">
+        <meta property="og:image" content="https://jobmakombela.fr/images/job-profile-ai.webp">
+        <meta property="og:type" content="website">
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Portfolio de Job Makombela">
+        <meta name="twitter:description" content="Développeur web et web mobile spécialisé dans Symfony, basé à Toulouse, France. Découvrez mes projets et compétences.">
+        <meta name="twitter:image" content="https://jobmakombela.fr/images/job-profile-ai.webp">
     </head>
     <body>
         <header>
@@ -40,8 +84,10 @@
         <footer>
             {# les contenues du footer #}
             {% include '_partials/_footer.html.twig' %}
-
         </footer>
-
     </body>
 </html>
+
+User-agent: *
+Disallow: /admin/
+Sitemap: https://jobmakombela.fr/sitemap.xml
