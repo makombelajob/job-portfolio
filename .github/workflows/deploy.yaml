@@ -1,4 +1,4 @@
-name: Deploy Symfony to o2switch
+name: Deploy Symfony App Directory to o2switch
 
 on:
   push:
@@ -10,30 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.O2SWITCH_SSH_KEY }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan -H jobmakombela.fr >> ~/.ssh/known_hosts
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.O2SWITCH_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H jobmakombela.fr >> ~/.ssh/known_hosts
 
-    - name: Deploy with rsync
-      run: |
-        rsync -avz --delete \
-          --exclude='.git*' \
-          --exclude='node_modules/' \
-          --exclude='var/cache/' \
-          --exclude='var/log/' \
-          ./ \
-          ruro5549@ruro5549.odns.fr:/home/ruro5549/www/
+      - name: Deploy `app/` folder with rsync
+        run: |
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_ed25519" \
+            --exclude='.git*' \
+            --exclude='var/cache/' \
+            --exclude='var/log/' \
+            ./app/ \
+            ruro5549@jobmakombela.fr:/home/ruro5549/www/
 
-    - name: Run Symfony commands (optional)
-      run: |
-        ssh ruro5549@jobmakombela.fr "
-          cd /home/ruro5549/www &&
-          php bin/console cache:clear --env=prod &&
-          php bin/console doctrine:migrations:migrate --no-interaction
-        "
+      - name: Run Symfony commands (optional)
+        run: |
+          ssh -i ~/.ssh/id_ed25519 ruro5549@jobmakombela.fr "
+            cd /home/ruro5549/www &&
+            php bin/console cache:clear --env=prod &&
+            php bin/console doctrine:migrations:migrate --no-interaction
+          "
