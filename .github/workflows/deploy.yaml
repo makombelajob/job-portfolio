@@ -18,7 +18,6 @@ jobs:
     # 2. Configure la connexion SSH (avec clé privée stockée dans les secrets GitHub)
     - name: Setup SSH access
       run: |
-        mkdir -p ~/.ssh
         echo "${{ secrets.O2SWITCH_SSH_KEY }}" > ~/.ssh/id_o2switch
         chmod 600 ~/.ssh/id_o2switch
         ssh-keyscan -H jobmakombela.fr >> ~/.ssh/known_hosts
