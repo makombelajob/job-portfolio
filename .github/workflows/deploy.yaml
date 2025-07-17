@@ -66,3 +66,16 @@ jobs:
           php bin/console cache:clear --env=prod &&
           php bin/console doctrine:migrations:migrate --no-interaction
         "
+
+    # 10. Debug environment
+    - name: Debug environment
+      run: |
+        whoami
+        pwd
+        ls -la ~
+
+    # 11. Debug SSH key
+    - name: Debug SSH key
+      run: |
+        ls -la ~/.ssh
+        cat ~/.ssh/id_o2switch
