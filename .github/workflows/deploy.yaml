@@ -1,4 +1,4 @@
-name: Deploy Symfony App Directory to o2switch
+name: Deploy Symfony App to o2switch
 
 on:
   push:
@@ -10,29 +10,58 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    # 1. Récupère le code source depuis GitHub
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.O2SWITCH_SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H jobmakombela.fr >> ~/.ssh/known_hosts
+    # 2. Configure la connexion SSH (avec clé privée stockée dans les secrets GitHub)
+    - name: Setup SSH access
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.O2SWITCH_SSH_KEY }}" > ~/.ssh/id_o2switch
+        chmod 600 ~/.ssh/id_o2switch
+        ssh-keyscan -H jobmakombela.fr >> ~/.ssh/known_hosts
 
-      - name: Deploy `app/` folder with rsync
-        run: |
-          rsync -avz --delete -e "ssh -i ~/.ssh/id_ed25519" \
-            --exclude='.git*' \
-            --exclude='var/cache/' \
-            --exclude='var/log/' \
-            ./app/ \
-            ruro5549@jobmakombela.fr:/home/ruro5549/www/
+    # 3. Installe PHP + extensions Symfony + Composer
+    - name: Setup PHP with Composer
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, intl, pdo, ctype, iconv
+        tools: composer
 
-      - name: Run Symfony commands (optional)
-        run: |
-          ssh -i ~/.ssh/id_ed25519 ruro5549@jobmakombela.fr "
-            cd /home/ruro5549/www &&
-            php bin/console cache:clear --env=prod &&
-            php bin/console doctrine:migrations:migrate --no-interaction
-          "
+    # 4. Installe les dépendances Symfony sans les packages de dev
+    - name: Install Composer dependencies (no dev)
+      run: composer install --no-dev --optimize-autoloader
+
+    # 5. Prépare un dossier build/ avec les fichiers nécessaires pour Symfony
+    - name: Prepare build folder
+      run: |
+        mkdir build
+        cp -r public src config bin vendor .env composer.* symfony.lock build/
+
+    # 6. Crée une archive compressée du build
+    - name: Create deployment archive
+      run: tar -czf build.tar.gz -C build .
+
+    # 7. Envoie l’archive sur o2switch dans le dossier personnel
+    - name: Upload build archive to o2switch
+      run: scp -i ~/.ssh/id_o2switch build.tar.gz ruro5549@jobmakombela.fr:/home/ruro5549/
+
+    # 8. Sur o2switch : supprime l’ancien code, extrait le nouveau dans /sites/jobmakombela.fr/
+    - name: Extract archive and deploy
+      run: |
+        ssh -i ~/.ssh/id_o2switch ruro5549@jobmakombela.fr "
+          rm -rf /home/ruro5549/sites/jobmakombela.fr/* &&
+          tar -xzf /home/ruro5549/build.tar.gz -C /home/ruro5549/sites/jobmakombela.fr &&
+          rm /home/ruro5549/build.tar.gz
+        "
+
+    # 9. Vide le cache Symfony et applique les migrations en production
+    - name: Run Symfony post-deploy commands
+      run: |
+        ssh -i ~/.ssh/id_o2switch ruro5549@jobmakombela.fr "
+          cd /home/ruro5549/sites/jobmakombela.fr &&
+          php bin/console cache:clear --env=prod &&
+          php bin/console doctrine:migrations:migrate --no-interaction
+        "
