@@ -1,5 +1,6 @@
-name: 🚀 Deploy Symfony build via FTP
+name: 🚀 Deploy Symfony App via FTP
 
+# Déclenchement à chaque push sur la branche main
 on:
   push:
     branches:
@@ -10,28 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧾 Checkout du dépôt
+      # Étape 1 : Cloner le dépôt pour récupérer le code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🏗️ Préparer la build de prod (sans Docker)
-        run: |
-          mkdir deploy-build
-          rsync -av \
-            --exclude='var' \
-            --exclude='.git' \
-            --exclude='node_modules' \
-            --exclude='docker' \
-            --exclude='Dockerfile' \
-            --exclude='docker-compose.yml' \
-            ./ deploy-build/
-          cd deploy-build
-          composer install --no-dev --optimize-autoloader
-
-      - name: 📂 Upload via FTP
+      # Étape 2 : Déployer via FTP le contenu du dossier `app/`
+      - name: Deploy app/ folder via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp.jobmakombela.fr
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: deploy-build/
-          remote-dir: /sites/jobmakombela.fr/
+          server: ftp.jobmakombela.fr         # Remplace par ton serveur FTP
+          username: ${{ secrets.FTP_USERNAME }}  # Identifiant FTP stocké dans les secrets GitHub
+          password: ${{ secrets.FTP_PASSWORD }}  # Mot de passe FTP stocké dans les secrets GitHub
+          local-dir: ./app/                   # Dossier local à envoyer
+          remote-dir: /sites/jobmakombela.fr                      # Répertoire racine FTP (adapter si besoin)
+          git-ftp-args: --insecure           # Optionnel : ignore les problèmes SSL (à ajuster selon ton serveur)
