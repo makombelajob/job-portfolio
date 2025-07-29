@@ -22,6 +22,6 @@ jobs:
           server: ftp.jobmakombela.fr         # Remplace par ton serveur FTP
           username: ${{ secrets.FTP_USERNAME }}  # Identifiant FTP stocké dans les secrets GitHub
           password: ${{ secrets.FTP_PASSWORD }}  # Mot de passe FTP stocké dans les secrets GitHub
-          local-dir: ./app/                   # Dossier local à envoyer
+          local-dir: ./           # Dossier local à envoyer
           remote-dir: /sites/jobmakombela.fr                      # Répertoire racine FTP (adapter si besoin)
           git-ftp-args: --insecure           # Optionnel : ignore les problèmes SSL (à ajuster selon ton serveur)
