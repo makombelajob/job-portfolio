@@ -32,7 +32,6 @@ jobs:
             **/node_modules/**
             **/vendor/**
             **/var/**
-            .env
             .env.local
             .env.*.local
             composer.lock
