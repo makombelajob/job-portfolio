@@ -3,7 +3,7 @@ name: 🚀 Deploy Symfony App (app/ only)
 on:
   push:
     branches:
-      - main  # déploiement automatique depuis la branche main
+      - main  # Déploiement automatique à chaque push sur main
 
 jobs:
   deploy:
@@ -13,20 +13,7 @@ jobs:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v4
 
-      - name: ⚙️ Setup PHP & Composer
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: mbstring, intl, pdo, sqlite, zip, xml
-          tools: composer
-          coverage: none
-
-      - name: 📦 Install PHP dependencies
-        run: |
-          cd app
-          composer install --no-interaction --optimize-autoloader
-
-      - name: 🚚 Deploy `app/` folder to o2switch
+      - name: 🚚 Déployer le contenu de `app/` sur le serveur
         uses: appleboy/scp-action@v0.1.3
         with:
           host: jobmakombela.fr
@@ -34,9 +21,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "app/*"
-          target: "/home/ruro5549/sites/jobmakombela.fr"
+          target: "/home/ruro5549/sites/jobmakombela.fr/"
 
-      - name: ⚙️ Post-deploy commands (cache clear, migration, etc.)
+      - name: ⚙️ Exécuter les commandes post-déploiement
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: jobmakombela.fr
@@ -45,5 +32,14 @@ jobs:
           port: 22
           script: |
             cd /home/ruro5549/sites/jobmakombela.fr
+            echo "✅ Installer les dépendances PHP"
+            composer install --no-interaction --optimize-autoloader --no-dev
+
+            echo "📂 Créer les dossiers nécessaires"
+            mkdir -p var/cache var/log
+
+            echo "🧹 Nettoyer et générer le cache Symfony"
             php bin/console cache:clear --env=prod
+
+            echo "🧬 Lancer les migrations de base de données"
             php bin/console doctrine:migrations:migrate --no-interaction --env=prod
