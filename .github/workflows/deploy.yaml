@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./                                 # On envoie tout le projet sauf ce qui est ignoré
-          remote-dir: /sites/jobmakombela.fr            # Dossier de destination sur l’hébergeur
+          remote-dir: /sites/jobmakombela.fr/            # Dossier de destination sur l’hébergeur
           exclude: |
             **/.git*
             **/docker/**
