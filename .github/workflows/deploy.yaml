@@ -34,4 +34,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./   # Répertoire à envoyer
-          server-dir: /www/mon-site/   # Dossier cible sur o2switch
+          server-dir: /sites/jobmakombela.fr   # Dossier cible sur o2switch
