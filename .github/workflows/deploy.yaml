@@ -1,39 +1,37 @@
-name: 🚀 Deploy Symfony App via FTP
+name: Deploy Symfony to o2switch
 
-# Déclenchement à chaque push sur la branche main
 on:
   push:
     branches:
-      - main
+      - main   # ou master, selon ta branche
 
 jobs:
-  ftp-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Étape 1 : Cloner le dépôt
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      # Étape 2 : Déployer via FTP en ignorant les dossiers inutiles
-      - name: Deploy project via FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          server: ftp.jobmakombela.fr
+          php-version: '8.1'
+          extensions: mbstring, intl, pdo_mysql
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Build assets
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./                                 # On envoie tout le projet sauf ce qui est ignoré
-          remote-dir: /sites/jobmakombela.fr/            # Dossier de destination sur l’hébergeur
-          exclude: |
-            **/.git*
-            **/docker/**
-            **/Dockerfile
-            **/docker-compose.yml
-            **/node_modules/**
-            **/vendor/**
-            **/var/**
-            .env.local
-            .env.*.local
-            composer.lock
-            package-lock.json
-            README.md
+          local-dir: ./   # Répertoire à envoyer
+          server-dir: /www/mon-site/   # Dossier cible sur o2switch
